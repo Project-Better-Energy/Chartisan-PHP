@@ -133,9 +133,9 @@ class Chartisan
      * Returns true if the given ID is already used.
      *
      * @param integer $id
-     * @return void
+     * @return boolean
      */
-    protected function idUsed(int $id)
+    protected function idUsed(int $id): bool
     {
         foreach ($this->serverData->datasets as $dataset) {
             if ($dataset->id == $id) {
@@ -152,7 +152,7 @@ class Chartisan
      * @param array $values
      * @param integer $id
      * @param array $extra
-     * @return DatasetData
+     * @return array
      */
     public function getOrCreateDataset(string $name, array $values, int $id, array $extra): array
     {
