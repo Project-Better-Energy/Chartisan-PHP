@@ -154,7 +154,7 @@ class Chartisan
      * @param array $extra
      * @return array
      */
-    public function getOrCreateDataset(string $name, array $values, int $id, array $extra): array
+    protected function getOrCreateDataset(string $name, array $values, int $id, array $extra): array
     {
         foreach ($this->serverData->datasets as $dataset) {
             if ($dataset->id== $id) {
