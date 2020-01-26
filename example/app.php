@@ -5,9 +5,11 @@ declare(strict_types = 1);
 use Chartisan\PHP\Chartisan;
 
 /**
- * Outputing JSON encoded data.
+ * Outputing JSON encoded data and
+ * the CORS headers.
  */
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
 /**
  * Main application entry point.
