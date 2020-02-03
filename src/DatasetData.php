@@ -10,13 +10,6 @@ namespace Chartisan\PHP;
 class DatasetData
 {
     /**
-     * Stores the dataset ID.
-     *
-     * @var int
-     */
-    public int $id;
-
-    /**
      * Stores the dataset name.
      *
      * @var string
@@ -33,23 +26,21 @@ class DatasetData
     /**
      * Stores the dataset extra information if needed.
      *
-     * @var array
+     * @var ?array
      */
-    public array $extra;
+    public ?array $extra;
 
     /**
      * Creates a new instance of DatasetData.
      *
      * @param string $name
      * @param array $values
-     * @param integer $id
-     * @param array $extra
+     * @param array|null $extra
      */
-    public function __construct(string $name, array $values, int $id, array $extra)
+    public function __construct(string $name, array $values, ?array $extra)
     {
         $this->name = $name;
         $this->values = $values;
-        $this->id = $id;
         $this->extra = $extra;
     }
 }

@@ -58,14 +58,13 @@ class Chartisan
      *
      * @param string $name
      * @param array $values
-     * @param integer $id
-     * @param array $extra
+     * @param array|null $extra
      * @return Chartisan
      */
-    public function advancedDataset(string $name, array $values, int $id, array $extra): Chartisan
+    public function advancedDataset(string $name, array $values, ?array $extra): Chartisan
     {
         // Get or create the given dataset.
-        [$dataset, $isNew] = $this->getOrCreateDataset($name, $values, $id, $extra);
+        [$dataset, $isNew] = $this->getOrCreateDataset($name, $values, $extra);
         if ($isNew) {
             // Append the new dataset.
             $this->serverData->datasets[] = $dataset;
@@ -88,7 +87,7 @@ class Chartisan
      */
     public function dataset(string $name, array $values): Chartisan
     {
-        [$dataset] = $this->getOrCreateDataset($name, $values, $this->getNewID(), []);
+        [$dataset] = $this->getOrCreateDataset($name, $values, null);
         $this->serverData->datasets[] = $dataset;
         return $this;
     }
@@ -114,53 +113,20 @@ class Chartisan
     }
 
     /**
-     * getNewID returns an ID that is not used by any of the datasets.
-     * Keep in mind, this will panic when n > 2^32 if int is 32 bits.
-     * If you need more than 2^32 datasets, you're crazy.
-     *
-     * @return integer
-     */
-    protected function getNewID(): int
-    {
-        for ($n = 0; ; $n++) {
-            if (!$this->idUsed($n)) {
-                return $n;
-            }
-        }
-    }
-
-    /**
-     * Returns true if the given ID is already used.
-     *
-     * @param integer $id
-     * @return boolean
-     */
-    protected function idUsed(int $id): bool
-    {
-        foreach ($this->serverData->datasets as $dataset) {
-            if ($dataset->id == $id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Returns a dataset from the chart or creates a new one given the data.
      *
      * @param string $name
      * @param array $values
-     * @param integer $id
-     * @param array $extra
+     * @param array|null $extra
      * @return array
      */
-    protected function getOrCreateDataset(string $name, array $values, int $id, array $extra): array
+    protected function getOrCreateDataset(string $name, array $values, ?array $extra): array
     {
         foreach ($this->serverData->datasets as $dataset) {
-            if ($dataset->id== $id) {
+            if ($dataset->name == $name) {
                 return [$dataset, false];
             }
         }
-        return [new DatasetData($name, $values, $id, $extra), true];
+        return [new DatasetData($name, $values, $extra), true];
     }
 }

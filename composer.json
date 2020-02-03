@@ -1,6 +1,6 @@
 {
     "name": "chartisan/php",
-    "description": "The next generation charting experience",
+    "description": "Chartisan's PHP backend",
     "license": "MIT",
     "type": "library",
     "authors": [
