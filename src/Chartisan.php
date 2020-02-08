@@ -19,13 +19,21 @@ class Chartisan
     /**
      * Creates a new instance of a chartisan chart.
      *
+     * @param ServerData $serverData
+     */
+    public function __construct(ServerData $serverData)
+    {
+        $this->serverData = $serverData;
+    }
+
+    /**
+     * Creates a new instance of a chartisan chart.
+     *
      * @return Chartisan
      */
     public static function build(): Chartisan
     {
-        $chartisan = new Chartisan;
-        $chartisan->serverData = new ServerData;
-        return $chartisan;
+        return new Chartisan(new ServerData);
     }
 
     /**
@@ -87,8 +95,7 @@ class Chartisan
      */
     public function dataset(string $name, array $values): Chartisan
     {
-        [$dataset] = $this->getOrCreateDataset($name, $values, null);
-        $this->serverData->datasets[] = $dataset;
+        $this->advancedDataset($name, $values, null);
         return $this;
     }
 
