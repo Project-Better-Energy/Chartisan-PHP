@@ -19,7 +19,7 @@ class DatasetData
     /**
      * Stores the dataset values.
      *
-     * @var int[]
+     * @var array[float]
      */
     public array $values;
 

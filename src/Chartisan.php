@@ -123,7 +123,7 @@ class Chartisan
      * Returns a dataset from the chart or creates a new one given the data.
      *
      * @param string $name
-     * @param array $values
+     * @param array[float] $values
      * @param array|null $extra
      * @return array
      */
