@@ -71,17 +71,14 @@ class Chartisan
      */
     public function advancedDataset(string $name, array $values, ?array $extra): Chartisan
     {
-        // Get or create the given dataset.
-        [$dataset, $isNew] = $this->getOrCreateDataset($name, $values, $extra);
-        if ($isNew) {
-            // Append the new dataset.
-            $this->serverData->datasets[] = $dataset;
-            return $this;
+        $dataset = $this->getDataset($name);
+        if ($dataset) {
+            $dataset->name = $name;
+            $dataset->values = $values;
+            $dataset->extra = $extra;
+        } else {
+            $this->serverData->datasets[] = new DatasetData($name, $values, $extra);
         }
-        // Modify the existing dataset.
-        $dataset->name = $name;
-        $dataset->values = $values;
-        $dataset->extra = $extra;
         return $this;
     }
 
@@ -95,8 +92,7 @@ class Chartisan
      */
     public function dataset(string $name, array $values): Chartisan
     {
-        $this->advancedDataset($name, $values, null);
-        return $this;
+        return $this->advancedDataset($name, $values, null);
     }
 
     /**
@@ -110,30 +106,28 @@ class Chartisan
     }
 
     /**
-     * Transforms it to an array.
+     * Transforms it to an object.
      *
-     * @return array
+     * @return ServerData
      */
-    public function toObject(): array
+    public function toObject(): ServerData
     {
-        return (array) $this->serverData;
+        return $this->serverData;
     }
 
     /**
-     * Returns a dataset from the chart or creates a new one given the data.
+     * Gets the dataset with the given name.
      *
      * @param string $name
-     * @param array[float] $values
-     * @param array|null $extra
-     * @return array
+     * @return ServerData|null
      */
-    protected function getOrCreateDataset(string $name, array $values, ?array $extra): array
+    protected function getDataset(string $name): ?ServerData
     {
         foreach ($this->serverData->datasets as $dataset) {
             if ($dataset->name == $name) {
-                return [$dataset, false];
+                return $dataset;
             }
         }
-        return [new DatasetData($name, $values, $extra), true];
+        return null;
     }
 }
